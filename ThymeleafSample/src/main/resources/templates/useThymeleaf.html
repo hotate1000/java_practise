@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th = "http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1 th:text="'hello world'">表示する部分</h1>
+<h1>こんにちは！[[${name}]]さん</h1>
+<h1 th:text="'明日は、' + '晴れ' + 'です。' ">表示部分</h1>
+
+<hr>
+<h1 th:text="|こんにちは!${name}さん|">表示する部分</h1>
+<div th:with="a=1,b=2">
+	<span th:text="|${a} + ${b} = ${a+b}|"></span>
+</div>
+
+<span th:text="1 > 10"></span>
+<span th:text="1 < 10"></span>
+
+<hr>
+<div th:switch="${name}">
+	<p th:case="太郎" th:text="|${name}です！|"></p>
+	<p th:case="ジロウ" th:text="|${name}です！|"></p>
+	<p th:case="花子" th:text="|${name}です！|"></p>
+	<p th:case="*">名簿にありません</p>
+</div>
+
+.でアクセス：<span th:text="${mb.id}">ID</span>-<span th:text="${mb.name}">名前</span><br>
+ []でアクセス：<span th:text="${mb['id']}">ID</span>-<span th:text="${mb['name']}">名前</span><br>
+<th:block th:object="${mb}">
+	.でアクセス：<span th:text="*{id}">ID</span>-<span th:text="*{name}">名前</span><br>
+	[]でアクセス：<span th:text="*{['id']}">ID</span>-<span th:text="*{['name']}">名前</span>
+</th:block>
+
+<hr>
+<span th:text="${list[0]}">方角</span>
+<span th:text="${list[1]}">方角</span>
+<span th:text="${list[2]}">方角</span>
+<span th:text="${list[3]}">方角</span><br>
+
+.でアクセス：<span th:text="${map.tanaka.name}">名前</span>
+<span th:text=${map.suzuki.name}>名前</span><br>
+[]でアクセス：<span th:text="${map['tanaka']['name']}">名前</span>
+<span th:text="${map['suzuki']['name']}">名前</span><br>
+
+<div th:each="member : ${members}">
+	<p>[[${member.id}]] : [[${member.name}]]</p>
+</div>
+
+<hr>
+<div th:each="member, s : ${members}" th:object="${member}">
+	<p>
+	index-> [[${s.index}]], count-> [[${s.count}]],
+	size-> [[${s.size}]], current-> [[${s.current}]],
+	even-> [[${s.even}]], odd-> [[${s.odd}]],
+	first-> [[${s.first}]], last-> [[${s.last}]],
+	[[*{id}]] : [[*{name}]]
+	</p>
+</div>
+
+<div th:with="x=1000000, y=123456.789">
+	整数のフォーマット：<span th:text="${#numbers.formatInteger(x, 3, 'COMMA')}"></span><br/>
+	不動少数点のフォーマット：<span th:text="${#numbers.formatDecimal(y, 3, 'COMMA', 2, 'POINT')}"></span><br/>
+</div>
+
+<div th:with="today=${#dates.createNow()}">
+	yyyy/mm/dd形式：<span th:text="${#dates.format(today, 'yyyy年MM月dd日')}"></span><br/>
+	yyyy形式：<span th:text="${#dates.year(today)}"></span><br/>
+	mm形式：<span th:text="${#dates.month(today)}"></span><br/>
+	dd形式：<span th:text="${#dates.day(today)}"></span><br/>
+	曜日：<span th:text="${#dates.dayOfWeek(today)}"></span><br/>
+</div>
+
+<div th:with="str1='abcdef'">
+	大文字変換：<span th:text="${#strings.toUpperCase(str1)}"></span><br/>
+	空白字変換：<span th:text="${#strings.isEmpty(str1)}"></span><br/>
+	長さ：<span th:text="${#strings.length(str1)}"></span><br/>
+</div>
+
+<h1>Fragumentをこの下に埋め込む</h1>
+<div id="one" th:insert="fragment :: one"></div>
+<div id="three" th:replace="fragment :: three"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
